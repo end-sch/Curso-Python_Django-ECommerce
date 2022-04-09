@@ -11,9 +11,9 @@ class Perfil(models.Model):
     cpf = models.CharField(max_length=11)
     endereco = models.CharField(max_length=50)
     numero = models.CharField(max_length=5)
-    complemento = models.CharField(max_length=30)
+    complemento = models.CharField(max_length=30, blank=True, null=True)
     bairro = models.CharField(max_length=30)
-    cep = models.CharField(max_length=8)
+    cep = models.CharField(max_length=8, null=True)
     cidade = models.CharField(max_length=30)
     estado = models.CharField(
         max_length=2,
@@ -58,7 +58,7 @@ class Perfil(models.Model):
         if not valida_cpf(self.cpf):
             error_messages['cpf'] = 'Digite um CPF válido'
 
-        if re.search(r'[^0-9]', self.cep) or len(self.cep) < 8:
+        if not self.cep or re.search(r'[^0-9]', self.cep) or len(self.cep) < 8:
             error_messages['cep'] = 'CEP inválido, digite os 8 digitos do CEP'
         
         if error_messages:
